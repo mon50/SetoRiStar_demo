@@ -1,11 +1,10 @@
 "use client";
 import { useEffect } from 'react';
-import { auth } from '@/lib/firebase';
 import { useAppDispatch } from '../../hooks';
 import { login, logout } from '../user/userSlice';
 import { useAppSelector } from '../../hooks';
 import React from 'react';
-
+import supabase from '../../../lib/supabaseClient';
 
 type Props = {
   children: React.ReactNode;
@@ -18,22 +17,32 @@ const LoginHook: React.FC<Props> = ({ children }) => {
   console.log(user);
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      console.log('user is', authUser);
-      if (authUser) {
-        dispatch(
-          login({
-            uid: authUser.uid,
-            photo: authUser.photoURL,
-            email: authUser.email,
-            displayName: authUser.displayName,
-          })
-        );
-      } else {
-        dispatch(logout());
-      }
-    });
-  }, [dispatch]);
+    const getUser = async () => {
+      const { data: authListener } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (event === 'SIGNED_IN') {
+            const { user } = session ?? {};
+            dispatch(
+              login({
+                uid: user?.id ?? '',
+                photo: user?.user_metadata.avatar_url,
+                email: user?.email ?? '',
+                displayName: user?.user_metadata.display_name,
+              })
+            );
+          } else if (event === 'SIGNED_OUT') {
+            dispatch(logout());
+          }
+        }
+      );
+
+      return () => {
+        authListener?.unsubscribe();
+      };
+    };
+
+    getUser();
+  }, [dispatch, supabase]);
 
   return <>{children}</>;
 };
