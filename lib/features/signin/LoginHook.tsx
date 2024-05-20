@@ -2,49 +2,44 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { login, logout } from '../user/userSlice';
-import { useAppSelector } from '../../hooks';
-import React from 'react';
 import supabase from '../../../lib/supabaseClient';
+import { useRouter } from 'next/navigation';
+import { GetEqualAuthId } from '@/app/api/sql/getUserData';
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const LoginHook: React.FC<Props> = ({ children }) => {
+const LoginHook: React.FC = () => {
   const dispatch = useAppDispatch();
-
-  const user = useAppSelector((state) => state.user.user);
-  console.log(user);
+  const router = useRouter();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: authListener } = supabase.auth.onAuthStateChange(
-        async (event, session) => {
-          if (event === 'SIGNED_IN') {
-            const { user } = session ?? {};
-            dispatch(
-              login({
-                uid: user?.id ?? '',
-                photo: user?.user_metadata.avatar_url,
-                email: user?.email ?? '',
-                displayName: user?.user_metadata.display_name,
-              })
-            );
-          } else if (event === 'SIGNED_OUT') {
-            dispatch(logout());
-          }
-        }
-      );
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log(event);
+      if (event === 'SIGNED_IN') {
+        const { user } = session ?? {};
+        console.log(user);
+        const userData = await GetEqualAuthId(user);
 
-      return () => {
-        authListener?.unsubscribe();
-      };
-    };
+        const iconURL = userData?.display_image ?? 'http://flat-icon-design.com/f/f_object_163/s512_f_object_163_0bg.png';
 
-    getUser();
-  }, [dispatch, supabase]);
+        dispatch(
+          login(
+          {
+            uid: userData?.user_id ?? 'no_user_id',
+            auth_id: user?.id ?? 'no_auth_id',
+            photo: iconURL,
+            email: user?.email ?? 'no_email',
+            displayName: userData?.display_name ?? 'no_display_name',
+          })
+        );
+        // ログイン後のリダイレクト処理を追加
+        router.push('/main');
 
-  return <>{children}</>;
+      } else if (event === 'SIGNED_OUT') {
+        dispatch(logout());
+      }
+    });
+  }, []);
+
+  return null;
 };
 
 export default LoginHook;

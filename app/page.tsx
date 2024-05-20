@@ -1,17 +1,34 @@
-import type { Metadata } from "next";
-import LoginCheck from "./components/LoginCheck";
+"use client";
+import React, { useEffect } from 'react'
+import { useAppSelector } from "@/lib/hooks";
+import { usePathname, useRouter } from 'next/navigation';
 
-export default function IndexPage() {
+export default function indexPage (){
+    const pathname = usePathname();
+    const loginState = useAppSelector((state) => state.user.signIn);
+    const router = useRouter();
 
-  return(
-    <div>
-      <h1>Redux Toolkit</h1>
-      <p>Redux Toolkit is the official, opinionated, batteries-included toolset for efficient Redux development.</p>
-      <LoginCheck/>
-    </div>
-  );
+    useEffect(() => {
+      // ユーザーがログインしていない場合は、/signinページにリダイレクト
+      if (!loginState) {
+        router.push('/signin');
+      }else{
+        if(pathname === '/'){
+          router.push('/main');
+        }
+      }
+    }, [loginState, router]);
 
-}
-export const metadata: Metadata = {
-  title: "Redux Toolkit",
-};
+
+    return (
+        <div className="App">
+          {loginState ? (
+            <div>Loading...→Mainへ</div>
+          ):(
+            // Redirect to siginin page if user is not logged in
+            <div>Loading...→サインインへ</div>
+          )}
+        </div>
+    );
+  }
+

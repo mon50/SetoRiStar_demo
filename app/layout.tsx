@@ -1,10 +1,9 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { StoreProvider } from "./StoreProvider";
-import { Nav } from "./components/Nav";
-
 import "./styles/globals.css";
 import styles from "./styles/layout.module.css";
+import { Link } from "@mui/material";
+import LoginHook from "@/lib/features/signin/LoginHook";
 
 interface Props {
   readonly children: ReactNode;
@@ -12,13 +11,14 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <StoreProvider>
-      <html lang="en">
+      <html lang="jp">
         <body>
+        <StoreProvider>
+          <LoginHook/>
           <section className={styles.container}>
 
             <header className={styles.header}>
-              <h1>This is Header</h1>
+              <Link href={'/main'}>←BackToMain</Link>
             </header>
 
             <main className={styles.main}>{children}</main>
@@ -27,8 +27,8 @@ export default function RootLayout({ children }: Props) {
               <a> This is Footer</a>
             </footer>
           </section>
+          </StoreProvider>
         </body>
       </html>
-    </StoreProvider>
   );
 }
