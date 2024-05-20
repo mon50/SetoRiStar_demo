@@ -1,5 +1,4 @@
-import { InitialState } from "@/lib/Type";
-import supabase from "@/lib/supabaseClient";
+import supabase from "@/utils/supabase/supabaseClient";
 import { User } from "@supabase/supabase-js";
 
 export async function GetEqualAuthId(user:  User | undefined){

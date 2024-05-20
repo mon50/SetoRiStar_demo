@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from '@/lib/hooks';
-import supabase from '@/lib/supabaseClient';
+import supabase from '@/utils/supabase/supabaseClient';
 import { Link } from "@mui/material";
 import React from 'react'
 

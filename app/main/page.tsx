@@ -1,7 +1,7 @@
 //app/main/page.tsx
 "use client";
 import { useAppSelector } from '@/lib/hooks';
-import supabase from '@/lib/supabaseClient';
+import supabase from '@/utils/supabase/supabaseClient';
 import { Button, Link } from "@mui/material";
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -18,9 +18,24 @@ const MainPage = () => {
     }
   }, [userId, router]);
 
-  const handleLogout = async () => {
+  const Logout = async() => {
+    console.log('logout button clicked');
+    try{
+      console.log("supabase Logout 実行開始");
+      const { error:logoutError } = await supabase.auth.signOut()
+      console.log("supabase Logout 実行終了");
+      if (logoutError) {
+        throw logoutError;
+      }
+      await router.push("/signin");
+    }catch{
+      alert('エラーが発生しました');
+    }
+  }
+
+  const handleSignOut = async () => {
     await supabase.auth.signOut();
-    router.push('/signin');
+    router.refresh();
   };
 
   return (
@@ -28,7 +43,7 @@ const MainPage = () => {
       <h1>MainPage</h1>
       {userName ? <h1>Welcome! {userName}</h1> : <h1>Welcome Anonymous User</h1>}
       <Link href={`/${userId}`}>→ {userName} page</Link>
-      <Button onClick={handleLogout}>Logout</Button>
+      <Button onClick={Logout}>Logout</Button>
     </>
   );
 }

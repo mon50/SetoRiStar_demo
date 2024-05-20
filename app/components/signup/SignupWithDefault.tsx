@@ -1,6 +1,6 @@
 "use client"
 import { Button, Input } from '@mui/material';
-import supabase from '../../../lib/supabaseClient';
+import supabase from 'utils/supabase/supabaseClient';
 import React, { useState } from 'react'
 
 const SignupWithDefault = () => {
@@ -30,11 +30,14 @@ const SignupWithDefault = () => {
                 }
             }
             alert("ユーザー登録成功");
-        } catch (error) {
-            alert(error.message);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                alert(error.message);
+            } else {
+                alert("An unknown error occurred");
+            }
         }
     }
-      
 
     return (
         <form onSubmit={signUpNewUser}>

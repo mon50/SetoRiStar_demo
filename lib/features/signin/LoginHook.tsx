@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { login, logout } from '../user/userSlice';
-import supabase from '../../../lib/supabaseClient';
+import supabase from '../../../utils/supabase/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { GetEqualAuthId } from '@/app/api/sql/getUserData';
 
