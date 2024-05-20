@@ -12,7 +12,6 @@ const UserPage = () => {
   return (
     <div>
         <Link href={'/main'}>←Back to Home</Link>
-        <h1>User Name</h1>
       <h1>User ID: {userData?.uid}</h1>
       {/* ユーザーIDに基づいたコンテンツを表示 */}
       <h2>User Name: {userData?.displayName}</h2>

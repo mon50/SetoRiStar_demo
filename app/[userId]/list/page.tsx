@@ -1,62 +1,39 @@
 "use client";
+import { GetLiveIdEqualUserId, GetLiveSchedule } from '@/app/api/sql/getUserData';
+import getUserListSchedule from '@/lib/features/userIdList/getUserListSchedule';
 import { useAppSelector } from '@/lib/hooks';
-import supabase from '@/utils/supabase/supabaseClient';
 import { Link } from "@mui/material";
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
-const UserLiveSchedulePage = async() => {
+const UserLiveSchedulePage = () => {
+    const [userId, setUserId] = useState<string | null>(null);
+    const [liveData, setLiveData] = useState<any[]>([]);
     const user = useAppSelector((state) => state.user.user);
-    
-    if (!user) {
-        return <div>User not found</div>;
-    }
 
-    const { data: userIdData, error: userError } = await supabase
-        .from('users')
-        .select('user_id')
-        .eq('auth_id', user.uid)
-        .single();
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!user) {
+                console.error("User not found");
+                return null;
+                }
+        const userId = user?.uid;
+        setUserId(userId);
 
-    if (userError) {
-        console.error('Error fetching user data:', userError);
-        return <div>Error loading user data</div>;
-    }
+        const liveIds = await GetLiveIdEqualUserId(userId || "");
+        console.log(liveIds);
 
-    const { data: liveIdsData, error: liveIdsError } = await supabase
-        .from('user_live_schedules')
-        .select('live_id')
-        .eq('user_id', userIdData.user_id);
+        const liveData = await GetLiveSchedule(liveIds);
+        setLiveData(liveData);
+        console.log(liveData);
+        };
 
-    if (liveIdsError) {
-        console.error('Error fetching live IDs:', liveIdsError);
-        return <div>Error loading live schedule</div>;
-    }
-
-    const liveIds = liveIdsData.map((item) => item.live_id);
-    console.log(liveIds);
-
-    const { data: liveData, error: liveDataError } = await supabase
-        .from('lives')
-        .select(`
-            *,
-            artists (
-                artist_name
-            )
-        `)
-        .in('live_id', liveIds);
-
-    if (liveDataError) {
-        console.error('Error fetching live data:', liveDataError);
-        return <div>Error loading live schedule</div>;
-    }
-    if (!liveData) {
-        return <div>No live data found</div>;
-    }
+        fetchData();
+    }, []);
 
     return (
         <>
             <h1>UserLiveSchedulePage</h1>
-            <Link href={`/${user?.uid}`}>←Back</Link>
+            <Link href={`/${userId}`}>←Back</Link>
 
             <div>
                 {liveData.length > 0 ? (
