@@ -16,7 +16,7 @@ const MainPage = () => {
     if (!loginState) {
       router.push('/signin');
     }
-  }, [userId, router]);
+  }, []);
 
   const Logout = async() => {
     console.log('logout button clicked');
@@ -31,11 +31,6 @@ const MainPage = () => {
     }catch{
       alert('エラーが発生しました');
     }
-  }
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
   };
 
   return (
@@ -43,6 +38,7 @@ const MainPage = () => {
       <h1>MainPage</h1>
       {userName ? <h1>Welcome! {userName}</h1> : <h1>Welcome Anonymous User</h1>}
       <Link href={`/${userId}`}>→ {userName} page</Link>
+      <Link href={"/artists"}>→ Artist Page</Link>
       <Button onClick={Logout}>Logout</Button>
     </>
   );

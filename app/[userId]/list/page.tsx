@@ -10,25 +10,27 @@ const UserLiveSchedulePage = () => {
     const [liveData, setLiveData] = useState<any[]>([]);
     const user = useAppSelector((state) => state.user.user);
 
+    const fetchData = async () => {
+        if (!user) {
+            console.error("User not found");
+            return null;
+            }
+    const userId = user?.uid;
+    setUserId(userId);
+
+    const liveIds = await GetLiveIdEqualUserId(userId || "");
+    console.log(liveIds);
+
+    const liveData = await GetLiveSchedule(liveIds);
+    setLiveData(liveData);
+    console.log(liveData);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!user) {
-                console.error("User not found");
-                return null;
-                }
-        const userId = user?.uid;
-        setUserId(userId);
-
-        const liveIds = await GetLiveIdEqualUserId(userId || "");
-        console.log(liveIds);
-
-        const liveData = await GetLiveSchedule(liveIds);
-        setLiveData(liveData);
-        console.log(liveData);
-        };
-
-        fetchData();
-    }, []);
+        (async () => {
+          await fetchData();
+        })();
+      }, []);
 
     return (
         <>

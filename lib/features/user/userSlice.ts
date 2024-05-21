@@ -1,5 +1,6 @@
 import { InitialState } from "@/lib/Type";
 import { createAppSlice } from "@/lib/createAppSlice";
+import { persistor } from "@/lib/store";
 
 const initialState: InitialState = {
   user: null,

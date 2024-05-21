@@ -48,3 +48,18 @@ export async function GetLiveSchedule(liveIds: number[]) {
 
     return liveData;
 }
+
+export async function GetAllArtists() {
+    let { data: artists, error } = await supabase
+    .from('artists')
+    .select('*')
+            
+
+    if (error) {
+        console.error('Error fetching artists:', error);
+        return [];
+    }
+    
+
+    return artists;
+}
