@@ -1,4 +1,4 @@
-import supabase from "@/utils/supabase/supabaseClient";
+import supabase from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
 export async function GetEqualAuthId(user:  User | undefined){

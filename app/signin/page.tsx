@@ -1,13 +1,19 @@
 import React from 'react'
-import LoginWithDefault from '../components/signin/LoginWithDefault';
-import { Link } from '@mui/material';
+import { login, signup } from '@/app/signin/action';
 
 const LoginPage = () => {
 
     return (
       <div className="App">
-        <LoginWithDefault/>
-        <Link href="/signup">新規作成</Link>
+        <h2 >新規作成 or ログイン</h2>
+        <form> //TODO: sigininHookを使いアカウント情報をStoreに保存
+          <label htmlFor="email">Email:</label>
+          <input id="email" name="email" type="email" required />
+          <label htmlFor="password">Password:</label>
+          <input id="password" name="password" type="password" required />
+          <button formAction={login}>Log in</button>
+          <button formAction={signup}>Sign up</button>
+        </form>
       </div>
     );
 }

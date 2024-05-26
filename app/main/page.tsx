@@ -1,22 +1,20 @@
 //app/main/page.tsx
 "use client";
-import { useAppSelector } from '@/lib/hooks';
-import supabase from '@/utils/supabase/supabaseClient';
+import useAuth from '@/lib/features/signin/useAuth';
+import { createClient } from '@/utils/supabase/client';
 import { Button, Link } from "@mui/material";
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import React, { useEffect } from 'react';
 
-const MainPage = () => {
-  const loginState = useAppSelector((state) => state.user.signIn);
-  const userId = useAppSelector((state) => state.user.user?.uid);
-  const userName = useAppSelector((state) => state.user.user?.displayName);
-  const router = useRouter();
+  const HomePage = () => {
+    const supabase = createClient();
+    const { user, signIn } = useAuth();
 
   useEffect(() => {
-    if (!loginState) {
-      router.push('/signin');
+    if (!signIn) {
+      redirect('/signin')
     }
-  }, []);
+  }, [signIn]);
 
   const Logout = async() => {
     console.log('logout button clicked');
@@ -27,7 +25,7 @@ const MainPage = () => {
       if (logoutError) {
         throw logoutError;
       }
-      await router.push("/signin");
+      redirect("/signin");
     }catch{
       alert('エラーが発生しました');
     }
@@ -36,12 +34,12 @@ const MainPage = () => {
   return (
     <>
       <h1>MainPage</h1>
-      {userName ? <h1>Welcome! {userName}</h1> : <h1>Welcome Anonymous User</h1>}
-      <Link href={`/${userId}`}>→ {userName} page</Link>
+      <h1>Welcome! {user?.display_name}</h1>
+      <Link href={`/${user?.user_id}`}>→ {user?.display_name} page</Link>
       <Link href={"/artists"}>→ Artist Page</Link>
       <Button onClick={Logout}>Logout</Button>
     </>
   );
 }
 
-export default MainPage;
+export default HomePage;

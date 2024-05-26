@@ -1,7 +1,7 @@
 "use client";
 import { Button, Input } from '@mui/material';
 import React, { useState } from 'react';
-import supabase from '../../../utils/supabase/supabaseClient';
+import supabase from '../../../utils/supabase/client';
 
 const LoginWithDefault = () => {
     const [email, setEmail] = useState<string>("");
