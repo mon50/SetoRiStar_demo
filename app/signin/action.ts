@@ -14,17 +14,21 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 //TODO: サインイン成功時にstoreのsignIn Stateをtrueにする
-  const { error } = await supabase.auth.signInWithPassword(data)
 
+  try {
+  
+    const { error } = await supabase.auth.signInWithPassword(data)
 
-  if (error) {
-    redirect('/error')
-  }
+  }catch(error){
 
+      redirect('/error')
+  
+    }
   //TODO: storeのsignIn Stateがtrueなことを確認したらmainにリダイレクト
   //TODO: ユーザー情報が登録されていない場合は、入力されたemailとpasswordを元にユーザー情報を登録するsignup関数を実行し、accountにリダイレクト
   revalidatePath('/', 'layout')
-  redirect('/account')
+  redirect('/main')
+  console.log('login Passed')
 }
 
 export async function signup(formData: FormData) {

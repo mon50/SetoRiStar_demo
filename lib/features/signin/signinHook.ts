@@ -9,7 +9,7 @@ export async function signinHook() {
   const dispatch = useAppDispatch();
 
   const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log(event);
+    console.log(event); //TODO: onAuthStateChangeが発火していない状態。原因を調査し、修正
     if (event === 'SIGNED_IN') {
       const { user } = session ?? {};
       console.log(user);
