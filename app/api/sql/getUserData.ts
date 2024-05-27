@@ -1,7 +1,8 @@
-import supabase from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
 
 export async function GetEqualAuthId(user:  User | undefined){
+    const supabase = createClient();
     const { data: userData, error } = await supabase
     .from('users')
     .select('display_image,user_id,display_name')
@@ -16,6 +17,7 @@ export async function GetEqualAuthId(user:  User | undefined){
 
 
 export async function GetLiveIdEqualUserId(id: string | undefined) {
+    const supabase = createClient();
     const { data: liveIdsData, error: liveIdsError } = await supabase
         .from('user_live_schedules')
         .select('live_id')
@@ -31,6 +33,7 @@ export async function GetLiveIdEqualUserId(id: string | undefined) {
 }
 
 export async function GetLiveSchedule(liveIds: number[]) {
+    const supabase = createClient();
     const { data: liveData, error: liveDataError } = await supabase
         .from('lives')
         .select(`
@@ -50,6 +53,7 @@ export async function GetLiveSchedule(liveIds: number[]) {
 }
 
 export async function GetAllArtists() {
+    const supabase = createClient();
     let { data: artists, error } = await supabase
     .from('artists')
     .select('*')

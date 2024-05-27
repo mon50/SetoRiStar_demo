@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { GetAllArtists } from '../api/sql/getUserData';
 import { Link } from '@mui/material';
+import { createClient } from '@/utils/supabase/client';
 
 interface Artist {
   artist_id: number;
@@ -14,11 +14,19 @@ const ArtistsPage: React.FC = () => {
   const [artistList, setArtistList] = useState<Artist[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
 
   const fetchData = async () => {
-      const artistsList = await GetAllArtists();
-      console.log("ArtistsPage artistsList", artistsList);
-      setArtistList(artistsList??[]);
+    let { data: artists, error } = await supabase
+    .from('artists')
+    .select('*')
+            
+
+    if (error) {
+        console.error('Error fetching artists:', error);
+    }
+      console.log("ArtistsPage artistsList", artists);
+      setArtistList(artists??[]);
   };
 
   useEffect(() => {
