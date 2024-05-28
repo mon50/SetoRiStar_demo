@@ -1,51 +1,13 @@
 //app/main/page.tsx
-"use client";
-import { useAppSelector } from '@/lib/hooks';
-import supabase from '@/utils/supabase/supabaseClient';
-import { Button, Link } from "@mui/material";
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { createClient } from "@/utils/supabase/server"
+import MainForm from "./main-form"
 
-const MainPage = () => {
-  const loginState = useAppSelector((state) => state.user.signIn);
-  const userId = useAppSelector((state) => state.user.user?.uid);
-  const userName = useAppSelector((state) => state.user.user?.displayName);
-  const router = useRouter();
+export default async function Main() {
+  const supabase = createClient()
 
-  useEffect(() => {
-    if (!loginState) {
-      router.push('/signin');
-    }
-  }, [userId, router]);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  const Logout = async() => {
-    console.log('logout button clicked');
-    try{
-      console.log("supabase Logout 実行開始");
-      const { error:logoutError } = await supabase.auth.signOut()
-      console.log("supabase Logout 実行終了");
-      if (logoutError) {
-        throw logoutError;
-      }
-      await router.push("/signin");
-    }catch{
-      alert('エラーが発生しました');
-    }
-  }
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-  };
-
-  return (
-    <>
-      <h1>MainPage</h1>
-      {userName ? <h1>Welcome! {userName}</h1> : <h1>Welcome Anonymous User</h1>}
-      <Link href={`/${userId}`}>→ {userName} page</Link>
-      <Button onClick={Logout}>Logout</Button>
-    </>
-  );
+  return <MainForm user={user} />
 }
-
-export default MainPage;

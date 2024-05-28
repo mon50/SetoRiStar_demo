@@ -1,26 +1,13 @@
 // pages/[userId]/page.tsx
-"use client";
-import { useAppSelector } from '@/lib/hooks';
-import { Link } from "@mui/material";
+import { createClient } from "@/utils/supabase/server"
+import UserForm from "./user-form"
 
-const UserPage = () => {
-    const loginState = useAppSelector((state) => state.user.signIn);
-    const userData = useAppSelector((state) => state.user.user);
-    console.log(loginState)
-    console.log(userData)
+export default async function UserPage() {
+  const supabase = createClient()
 
-  return (
-    <div>
-        <Link href={'/main'}>←Back to Home</Link>
-      <h1>User ID: {userData?.uid}</h1>
-      {/* ユーザーIDに基づいたコンテンツを表示 */}
-      <h2>User Name: {userData?.displayName}</h2>
-      <h3>Email: {userData?.email}</h3>
-      <img src={userData?.photo} alt="user icon" />
-      <br/>
-      <Link href={`/${userData?.uid}/list`}>Schedule→</Link>
-    </div>
-  );
-};
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-export default UserPage;
+  return <UserForm user={user} />
+}

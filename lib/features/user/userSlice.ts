@@ -18,6 +18,9 @@ export const userSlice = createAppSlice({
           state.user = action.payload;
           state.signIn = true;
         },
+        update: (state,action) => {
+          state.user = action.payload;
+        },
         logout: (state) => {
           state.user = null;
           state.signIn = false;
@@ -25,5 +28,5 @@ export const userSlice = createAppSlice({
     } 
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, update, logout } = userSlice.actions;
 export default userSlice.reducer;
