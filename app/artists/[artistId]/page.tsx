@@ -1,9 +1,18 @@
-import React from 'react'
+import ArtistSchedule from "./artist-scedule"
 
-const ArtistPage = () => {
+export default async function ArtistPage({
+  params,
+  searchParams,
+}: {
+  params: { artistId: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  console.log(params.artistId)
+
   return (
-    <div>ArtistPage</div>
+    <>
+
+    <ArtistSchedule artistId = {params.artistId}/>
+    </>
   )
 }
-
-export default ArtistPage

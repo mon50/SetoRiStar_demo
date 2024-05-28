@@ -1,9 +1,7 @@
 //app/main/main-form.tsx
 "use client"
-import useAuth from '@/lib/features/signin/useAuth';
 import { createClient } from '@/utils/supabase/client';
-import { Button, Link } from "@mui/material";
-import { redirect } from 'next/navigation';
+import { Link } from "@mui/material";
 import React, { useCallback, useEffect, useState } from 'react';
 import { type User } from '@supabase/supabase-js'
 
