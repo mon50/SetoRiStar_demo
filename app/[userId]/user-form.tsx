@@ -56,14 +56,14 @@ export default function UserForm ({ user }: { user: User | null }) {
     <Link href={'/main'}>←Back to Home</Link>
     <h1>User ID: {user_id}</h1>
     <h1>{displayName}ページ</h1>
-    <Link href={`/home`}>→ メインのページ</Link>
-    <Link href={"/artists"}>→ アーティストページ</Link>
+    <Link href={`/main`}>← メインのページ</Link>
+    <Link href={`/${user_id}/favorite`}>→ お気に入りアーティスト</Link>
     {/* ユーザーIDに基づいたコンテンツを表示 */}
     <h2>User Name: {displayName}</h2>
     <h3>Email: {email}</h3>
     <img src={display_image??""} alt="user icon" />
     <br/>
-    <Link href={`/${user_id}/list`}>Schedule→</Link>
+    <Link href={`/${user_id}/list`}>参加予定のライブ→</Link>
     </>
   )
 }

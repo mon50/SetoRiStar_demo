@@ -27,3 +27,13 @@ export interface InitialState {
     capacity: Int16Array | null;
     date: Date;
   }
+
+  export interface ArtistN {
+    artist_name: string;
+  }
+  
+  export interface FavoriteArtists {
+    favorite_id: string;
+    artist_id: string;
+    artists: ArtistN;
+  }
