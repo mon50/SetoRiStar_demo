@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
@@ -13,9 +14,10 @@ export async function POST(req: NextRequest) {
   if (user) {
     await supabase.auth.signOut()
   }
-
-  revalidatePath('/', 'layout')
-  return NextResponse.redirect(new URL('/login', req.url), {
+  cookies().delete('__session');//TODOこの処理が正しいか確認
+  revalidatePath('/')
+  revalidatePath('/main')
+  return NextResponse.redirect(new URL('/signin', req.url), {
     status: 302,
   })
 }

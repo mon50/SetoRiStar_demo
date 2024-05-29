@@ -1,0 +1,18 @@
+/* components/button/button.module.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+  }
+  .button {
+    padding: 10px 20px;
+    background-color: #e25982;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: white; /* Ensure text is visible on the button */
+  }
+  

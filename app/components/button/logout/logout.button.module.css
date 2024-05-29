@@ -1,0 +1,19 @@
+/* components/button/home/home.button.module.css */
+@import '../button.module.css';
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    background-color: #8259e2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }

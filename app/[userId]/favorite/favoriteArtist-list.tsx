@@ -1,6 +1,7 @@
 "use client";
 import { FavoriteArtists } from "@/lib/Type";
 import { createClient } from "@/utils/supabase/client";
+import { Link } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 
 export default function FavoriteArtistList({ userId }: { userId: string }) {
@@ -61,7 +62,7 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
         <ul>
           {favoriteArtists.map((favorite) => (
             <li key={favorite.favorite_id}>
-              {favorite.artists.artist_name}
+              <Link href={`/artists/${favorite.artist_id}`}>{favorite.artists.artist_name}</Link>
             </li>
           ))}
         </ul>
