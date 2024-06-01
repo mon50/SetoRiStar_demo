@@ -1,5 +1,5 @@
 "use client";
-import { FavoriteArtists } from "@/lib/Type";
+import { FavoriteArtists } from "@/types/Type";
 import { createClient } from "@/utils/supabase/client";
 import { Link } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";

@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
-import { Artist } from '@/lib/Type';
+import { Artist } from '@/types/Type';
 
 export default function ArtistsList(){
 

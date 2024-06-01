@@ -1,5 +1,5 @@
 "use client";
-import { Artist, Live } from '@/lib/Type';
+import { Artist, Live } from '@/types/Type';
 import { createClient } from '@/utils/supabase/client';
 import React, { useCallback, useEffect, useState } from 'react'
 
