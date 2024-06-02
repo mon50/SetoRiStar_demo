@@ -1,47 +1,24 @@
 "use client";
-import { type User } from '@supabase/supabase-js';
 import { Link } from "@mui/material";
 import React, { useCallback, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
-export default function UserLiveForm({ user }: { user: User | null }) {
+export default function UserLiveForm({ userId }: { userId: string }) {
     const [liveData, setLiveData] = useState<any[]>([]);
 
     const [loading, setLoading] = useState(true)
-    const [user_id, setUser_id] = useState<string | null>(null)
-    const [displayName, setDisplayName] = useState<string | null>(null)
-    const [display_image, setDisplayImage] = useState<string | null>(null)
-    const [email, setEmail] = useState<string | null>(null)
 
     const supabase = createClient();
     const getUser = useCallback(async () => {
-        if (!user) return
+        if (!userId) return
     
         try {
           setLoading(true);
-    
-          const { data, error, status } = await supabase
-            .from('users')
-            .select(`user_id,display_name, display_image,email`)
-            .eq('auth_id', user.id)
-            .single();
-    
-          if (error && status !== 406) {
-            console.log(error);
-            throw error;
-          }
-    
-          if (data) {
-            setDisplayName(data.display_name);
-            setDisplayImage(data.display_image);
-            setUser_id(data.user_id);
-            setEmail(data.email);
-          }
 
           const { data: liveIdsData, error: liveIdsError } = await supabase
           .from('user_live_schedules')
           .select('live_id')
-          .eq('user_id', user_id);
+          .eq('user_id', userId);
   
             if (liveIdsError) {
                 console.error('Error fetching live IDs:', liveIdsError);
@@ -73,12 +50,12 @@ export default function UserLiveForm({ user }: { user: User | null }) {
         } finally {
           setLoading(false);
         }
-      }, [user, supabase])
+      }, [userId, supabase])
     
       useEffect(() => {
         getUser();
-        console.log(user);
-      }, [user, getUser]);
+        console.log(userId);
+      }, [userId, getUser]);
     
       if (loading) {
         return <p>読み込み中...</p>; // ユーザーデータを取得中に読み込み状態を表示
@@ -87,7 +64,7 @@ export default function UserLiveForm({ user }: { user: User | null }) {
     return (
         <>
             <h1>UserLiveSchedulePage</h1>
-            <Link href={`/${user_id}`}>←Back</Link>
+            <Link href={`/${userId}`}>←Back</Link>
 
             <div>
                 {liveData.length > 0 ? (
