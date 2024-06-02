@@ -1,49 +1,28 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { User } from '@supabase/supabase-js';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import userUser from '@/hooks/useUser';
 
 
 export default function IndexPage() {
-  const supabase = createClient();
+  const { session } = userUser();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null);
+
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (error) {
-        console.error('Error fetching user:', error);
-      } else {
-        setUser(user);
-      }
-      setLoading(false);
-    };
-
-    fetchUser();
-  }, [supabase]);
-
-  useEffect(() => {
-    if (!loading) {
-      if (user) {
+      if (session) {
         router.push('/main'); // ユーザーがログインしている場合、メインページへリダイレクト
       } else {
         router.push('/signin'); // ユーザーがログインしていない場合、サインインページへリダイレクト
       }
-    }
-  }, [loading, user, router]);
+  }, [session, router]);
 
   return (
     <div className="App">
-      {loading ? (
-        <div>Loading...</div>
+      {session ? (
+        <div>Loading...ToMain</div>
       ) : (
-        <div>Redirecting...</div>
+        <div>Redirecting...ToSignInPage</div>
       )}
     </div>
   );

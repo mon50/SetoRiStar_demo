@@ -25,6 +25,7 @@ export async function login(formData: FormData) {
   //TODO: storeのsignIn Stateがtrueなことを確認したらmainにリダイレクト
   //TODO: ユーザー情報が登録されていない場合は、入力されたemailとpasswordを元にユーザー情報を登録するsignup関数を実行し、accountにリダイレクト
   revalidatePath('/', 'layout')
+  redirect('/main')
   console.log('login Passed')
 }
 
