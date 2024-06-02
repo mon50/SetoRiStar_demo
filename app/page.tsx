@@ -1,34 +1,29 @@
 "use client";
-import React, { useEffect } from 'react'
-import { useAppSelector } from "@/lib/hooks";
-import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import userUser from '@/hooks/useUser';
 
-export default function indexPage (){
-    const pathname = usePathname();
-    const loginState = useAppSelector((state) => state.user.signIn);
-    const router = useRouter();
 
-    useEffect(() => {
-      // ユーザーがログインしていない場合は、/signinページにリダイレクト
-      if (!loginState) {
-        router.push('/signin');
-      }else{
-        if(pathname === '/'){
-          router.push('/main');
-        }
+export default function IndexPage() {
+  const { session } = userUser();
+  const router = useRouter();
+
+
+  useEffect(() => {
+      if (session) {
+        router.push('/main'); // ユーザーがログインしている場合、メインページへリダイレクト
+      } else {
+        router.push('/signin'); // ユーザーがログインしていない場合、サインインページへリダイレクト
       }
-    }, [loginState, router]);
+  }, [session, router]);
 
-
-    return (
-        <div className="App">
-          {loginState ? (
-            <div>Loading...→Mainへ</div>
-          ):(
-            // Redirect to siginin page if user is not logged in
-            <div>Loading...→サインインへ</div>
-          )}
-        </div>
-    );
-  }
-
+  return (
+    <div className="App">
+      {session ? (
+        <div>Loading...ToMain</div>
+      ) : (
+        <div>Redirecting...ToSignInPage</div>
+      )}
+    </div>
+  );
+}

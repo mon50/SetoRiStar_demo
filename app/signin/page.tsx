@@ -2,11 +2,12 @@ import React from 'react'
 import { login, signup } from '@/app/signin/action';
 
 const LoginPage = () => {
+  
 
     return (
       <div className="App">
         <h2 >新規作成 or ログイン</h2>
-        <form> //TODO: sigininHookを使いアカウント情報をStoreに保存
+        <form> 
           <label htmlFor="email">Email:</label>
           <input id="email" name="email" type="email" required />
           <label htmlFor="password">Password:</label>
