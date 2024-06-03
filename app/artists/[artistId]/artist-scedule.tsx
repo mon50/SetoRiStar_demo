@@ -1,4 +1,5 @@
 "use client";
+import AddScheduleButton from '@/app/components/button/addSchedule/addSchedule.button';
 import FavoriteButton from '@/app/components/button/favorite/favorite.button';
 import { Artist, Live } from '@/types/ArtistType';
 import { createClient } from '@/utils/supabase/client';
@@ -87,6 +88,7 @@ export default function ArtistSchedule({ artistId, user }: { artistId: string; u
                             <h2>{live.live_title}</h2>
                             <p>{live.venue}</p>
                             <p>{live.date.toString()}</p>
+                            <AddScheduleButton liveId={live.live_id} userId={userId} />
                         </div>
                     ))
                 ) : (
