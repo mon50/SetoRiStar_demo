@@ -51,8 +51,7 @@ export function FavoriteButton({ artistId, userId }: { artistId: number, userId:
         const { error } = await supabase
           .from('favorite_artists')
           .delete()
-          .eq('user_id', userId)
-          .eq('artist_id', artistId);
+          .match({ user_id: userId, artist_id: artistId });
 
         if (error) {
           console.error('Error removing favorite:', error);
