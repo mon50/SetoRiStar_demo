@@ -1,17 +1,30 @@
 "use client";
-import { Artist, Live } from '@/types/Type';
+import FavoriteButton from '@/app/components/button/favorite/favorite.button';
+import { Artist, Live } from '@/types/ArtistType';
 import { createClient } from '@/utils/supabase/client';
+import { User } from '@supabase/supabase-js';
 import React, { useCallback, useEffect, useState } from 'react'
 
-export default function ArtistSchedule({artistId}:{artistId:string}) {
+export default function ArtistSchedule({ artistId, user }: { artistId: string; user: User | null }) {
+    // コンポーネントの実装
     const [liveData, setLiveData] = useState<Live[]>([]);
     const [artistData, setArtistData] = useState<Artist|null>(null);
+    const [userId, setUserId] = useState<string|null>(null);
     const [loading, setLoading] = useState(true);
 
     const supabase = createClient();
     const getArtist = useCallback(async () => {
         try {
             setLoading(true);
+            const { data:userId } = await supabase
+            .from('users')
+            .select(`user_id`)
+            .eq('auth_id', user?.id)
+            .single();
+            
+            if (userId) {
+                setUserId(userId.user_id);
+            }
             const { data, error, status } = await supabase
                 .from('artists')
                 .select('*')
@@ -62,6 +75,8 @@ export default function ArtistSchedule({artistId}:{artistId:string}) {
             {artistData && (
                 <div>
                     <img src={artistData.artist_image} alt={artistData.artist_name} />
+                    <h3>{artistData.artist_name}</h3>
+                    <FavoriteButton artistId={artistData.artist_id} userId={userId} />
                     <p>{artistData.music_type}</p>
                 </div>
             )}

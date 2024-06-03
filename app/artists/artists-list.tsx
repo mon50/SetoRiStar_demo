@@ -2,18 +2,30 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
-import { Artist } from '@/types/Type';
+import { Artist } from '@/types/ArtistType';
+import FavoriteButton from '../components/button/favorite/favorite.button';
+import { User } from '@supabase/supabase-js';
 
-export default function ArtistsList(){
+export default function ArtistsList({ user }: { user: User | null }){
 
     const [artistList, setArtistList] = useState<Artist[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [userId, setUserId] = useState<string | null>(null);
     const supabase = createClient();
   
     const getArtists = useCallback(async () => {
 
         try{
             setLoading(true);
+            const { data:userId } = await supabase
+            .from('users')
+            .select(`user_id`)
+            .eq('auth_id', user?.id)
+            .single();
+            
+            if (userId) {
+                setUserId(userId.user_id);
+            }
 
             const { data, error, status} = await supabase
             .from('artists')
@@ -53,6 +65,7 @@ export default function ArtistsList(){
                 <th>Artist Name</th>
                 <th>Artist Image</th>
                 <th>Music Type</th>
+                <th>Favorite</th>
               </tr>
             </thead>
             <tbody>
@@ -64,6 +77,7 @@ export default function ArtistsList(){
                     <img src={artist.artist_image} alt={artist.artist_name} width="50" height="50" />
                   </td>
                   <td>{artist.music_type}</td>
+                  <td><FavoriteButton artistId={artist.artist_id} userId={userId}/></td>
                 </tr>
               ))}
             </tbody>
