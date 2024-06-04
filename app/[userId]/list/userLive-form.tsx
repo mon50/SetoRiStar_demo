@@ -2,6 +2,7 @@
 import { Link } from "@mui/material";
 import React, { useCallback, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import AddScheduleButton from "@/app/components/button/addSchedule/addSchedule.button";
 
 export default function UserLiveForm({ userId }: { userId: string }) {
     const [liveData, setLiveData] = useState<any[]>([]);
@@ -76,6 +77,7 @@ export default function UserLiveForm({ userId }: { userId: string }) {
                                 <th>Live Date</th>
                                 <th>Live Venue</th>
                                 <th>Capacity</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,6 +88,7 @@ export default function UserLiveForm({ userId }: { userId: string }) {
                                     <td>{livedata.date}</td>
                                     <td>{livedata.venue}</td>
                                     <td>{livedata.capacity ? livedata.capacity : "-"}</td>
+                                    <td><AddScheduleButton liveId={livedata.live_id} userId={userId} /></td>
                                 </tr>
                             ))}
                         </tbody>
