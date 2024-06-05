@@ -4,15 +4,16 @@ import LogoutButton from '../button/logout/logout.button'
 import styles from './header.module.css'
 import SearchConditionInput from '../input/searchCondition/searchCondition.input'
 import SignInSignUpButton from '../button/signin.signup/SignIn.SignUp.button'
+import { Box } from '@mui/material'
 
 const Header = () => {
   return (
-    <div className={styles.container}>
+    <Box className={styles.container}>
         <HomeButton />
         <SearchConditionInput/>
         <SignInSignUpButton/>
         <LogoutButton />
-    </div>
+    </Box>
   )
 }
 
