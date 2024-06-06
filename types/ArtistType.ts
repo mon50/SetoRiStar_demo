@@ -16,6 +16,7 @@ export interface Artist {
 
   export interface ArtistN {
     artist_name: string;
+    artist_image: string;
   }
   
   export interface FavoriteArtists {

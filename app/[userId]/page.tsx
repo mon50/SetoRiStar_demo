@@ -1,6 +1,6 @@
 // pages/[userId]/page.tsx
 import { createClient } from "@/utils/supabase/server"
-import UserForm from "./user-form"
+import UserProfile from "./userProfile"
 
 export default async function UserPage() {
   const supabase = createClient()
@@ -9,5 +9,7 @@ export default async function UserPage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  return <UserForm user={user} />
+  return <>
+  <UserProfile user={user}/>
+  </>
 }

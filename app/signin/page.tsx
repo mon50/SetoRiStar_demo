@@ -8,14 +8,14 @@ const LoginPage = () => {
     return (
       <div className="App">
         <h2 >新規作成 or ログイン</h2>
-        <FormControl> 
+        <form> 
           <label htmlFor="email">Email:</label>
-          <Input id="email" name="email" type="email" required />
+          <input id="email" name="email" type="email" required />
           <label htmlFor="password">Password:</label>
-          <Input id="password" name="password" type="password" required />
-          <Button formAction={login}>Log in</Button>
-          <Button formAction={signup}>Sign up</Button>
-        </FormControl>
+          <input id="password" name="password" type="password" required />
+          <button formAction={login}>Log in</button>
+          <button formAction={signup}>Sign up</button>
+        </form>
       </div>
     );
 }

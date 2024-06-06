@@ -3,6 +3,8 @@ import { FavoriteArtists } from "@/types/ArtistType";
 import { createClient } from "@/utils/supabase/client";
 import { Link } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function FavoriteArtistList({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
         .select(`
           favorite_id,
           artist_id,
-          artists (artist_name)
+          artists (artist_name, artist_image)
         `)
         .eq('user_id', userId);
 
@@ -35,6 +37,7 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
           artist_id: item.artist_id,
           artists: {
             artist_name: item.artists.artist_name,
+            artist_image: item.artists.artist_image,
           },
         }));
         setFavorite(formattedData);
@@ -56,19 +59,40 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
   }
 
   return (
-    <div>
-      <h1>Welcome to FavoriteArtistList!</h1>
-      {favoriteArtists.length > 0 ? (
-        <ul>
-          {favoriteArtists.map((favorite) => (
-            <li key={favorite.favorite_id}>
-              <Link href={`/artists/${favorite.artist_id}`}>{favorite.artists.artist_name}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>お気に入りのアーティストが見つかりません。</p>
-      )}
-    </div>
-  );
+
+<section className="w-full py-12">
+<div className="container grid gap-6 md:gap-8 px-4 md:px-6">
+{favoriteArtists.length > 0 ? (
+  <Carousel className="w-full max-w-full">
+    <CarouselContent>
+    {favoriteArtists.map((favorite) => (
+      <CarouselItem className="md:basis-1/3 lg:basis-1/4">
+        <div className="p-1">
+          <Card>
+            <img
+              src={favorite.artists.artist_image}
+              alt="Artist Image"
+              width={320}
+              height={240}
+              className="aspect-[4/3] object-cover w-full rounded-t-lg"
+            />
+            <CardContent className="p-4 space-y-2">
+              <h3 className="font-semibold text-lg tracking-tight">{favorite.artists.artist_name}</h3>
+              {/* <p className="text-sm text-gray-500 dark:text-gray-400">Experience immersive audio on the go.</p> */}
+            </CardContent>
+          </Card>
+        </div>
+      </CarouselItem>
+                ))}
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+        ) : (
+          <p>お気に入りのアーティストが見つかりません。</p>
+        )}
+</div>
+</section>
+
+);
 }

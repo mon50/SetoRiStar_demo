@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server"
-import ArtistSchedule from "./artist-scedule"
+import ArtistProfile  from "./ArtistProfile"
 
 export default async function ArtistPage({
   params,
@@ -17,8 +17,8 @@ export default async function ArtistPage({
   
   return (
     <>
+    <ArtistProfile artistId = {params.artistId} user= {user}/>
 
-    <ArtistSchedule artistId = {params.artistId} user= {user}/>
     </>
   )
 }

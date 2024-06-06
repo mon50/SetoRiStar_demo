@@ -63,6 +63,7 @@ export default function MainForm({ user }: { user: User | null }) {
         <Link href={`/${user_id}`}>→ {displayName}のページ</Link>
         <Link href={"/artists"}>→ アーティストページ</Link>
         {/* <Button onClick={}>ログアウト</Button> */}
+        
     </>
   );
 }

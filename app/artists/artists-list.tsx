@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { Artist } from '@/types/ArtistType';
 import FavoriteButton from '../components/button/favorite/favorite.button';
 import { User } from '@supabase/supabase-js';
+import ProfileCard from '../components/ProfileCard';
 
 export default function ArtistsList({ user }: { user: User | null }){
 
@@ -56,32 +57,13 @@ export default function ArtistsList({ user }: { user: User | null }){
   
     return (
       <>
-        <h1>Artists Page</h1>
+        <h1 className="text-2xl font-bold mb-4">Artists Page</h1>
         {artistList.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Artist ID</th>
-                <th>Artist Name</th>
-                <th>Artist Image</th>
-                <th>Music Type</th>
-                <th>Favorite</th>
-              </tr>
-            </thead>
-            <tbody>
-              {artistList.map((artist) => (
-                <tr key={artist.artist_id}>
-                  <td>{artist.artist_id}</td>
-                  <td><Link href={`/artists/${artist.artist_id}`}>{artist.artist_name}</Link></td>
-                  <td>
-                    <img src={artist.artist_image} alt={artist.artist_name} width="50" height="50" />
-                  </td>
-                  <td>{artist.music_type}</td>
-                  <td><FavoriteButton artistId={artist.artist_id} userId={userId}/></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {artistList.map((artist) => (
+              <ProfileCard key={artist.artist_id} artist={artist} userId={userId} />
+            ))}
+          </div>
         ) : (
           <div>No artists found</div>
         )}

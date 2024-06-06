@@ -8,6 +8,11 @@ export default async function FavoritePage({
     params: { userId: string }
     searchParams: { [key: string]: string | string[] | undefined }
   }) {
-    return <FavoriteArtistList userId={params.userId}/>
+    return 
+    <>
+<h1>Welcome to FavoriteArtistList!</h1>
+    <FavoriteArtistList userId={params.userId}/>
+
+</>
 }
 

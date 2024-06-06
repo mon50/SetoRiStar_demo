@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Icon } from '@mui/material';
+import { Icon, IconButton } from '@mui/material';
 import { createClient } from '@/utils/supabase/client';
 
 const supabase = createClient();
@@ -77,11 +77,9 @@ export function FavoriteButton({ artistId, userId }: { artistId: number, userId:
   };
 
   return (
-    <button disabled={loading} onClick={toggleFavorite}>
-      <Icon>
+    <IconButton disabled={loading} onClick={toggleFavorite}>
         {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-      </Icon>
-    </button>
+    </IconButton>
   );
 }
 
