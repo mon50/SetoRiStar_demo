@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import AddScheduleButton from "@/app/components/button/addSchedule/addSchedule.button";
 
-export default function UserLiveForm({ userId }: { userId: string }) {
+export default function UserLiveBefore({ userId }: { userId: string }) {
     const [liveData, setLiveData] = useState<any[]>([]);
     const today = new Date();
     const yesterday = new Date(today);
@@ -71,42 +71,32 @@ export default function UserLiveForm({ userId }: { userId: string }) {
     }
 
     return (
-        <>
-            <h1>UserLiveSchedulePage</h1>
-            <Link href={`/${userId}`}>←Back</Link>
 
             <div>
                 {liveData.length > 0 ? (
-                    <table>
-                        <thead>    
-                            <tr>
-                                <th>Live Title</th>
-                                <th>アーティスト名</th>
-                                <th>Live Date</th>
-                                <th>Live Venue</th>
-                                <th>Capacity</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+
+<>
                             {liveData.map((livedata) => (
-                                <tr key={livedata.live_id}>
-                                    <td>{livedata.live_title}</td>
-                                    <td>{livedata.artists.artist_name}</td>
-                                    {isBeforeYesterday(livedata.date) ?<td className="text-gray-400">{livedata.date}</td>:<td>
-                            {livedata.date}
-                        </td>}
-                                    <td>{livedata.venue}</td>
-                                    <td>{livedata.capacity ? livedata.capacity : "-"}</td>
-                                    <td><AddScheduleButton liveId={livedata.live_id} userId={userId} /></td>
-                                </tr>
+                               <div key={livedata.live_id}> {isBeforeYesterday(livedata.date) ?(
+                                <div className="flex items-start">
+                               <div className="rounded-full w-10 h-10 mr-4">
+                                 {livedata.date}
+                                 </div>
+                               <div>
+                                 <p className="text-gray-800 dark:text-gray-100 font-bold">{livedata.live_title}</p>
+                                 <p className="text-gray-500 dark:text-gray-400 text-sm">{livedata.artist_name}</p>
+                               </div>
+                               </div>
+                             ):(
+                             <>
+                        </>)}
+                        </div>
+                        
                             ))}
-                        </tbody>
-                    </table>
+                        </>
                 ) : (
                     <div>No live schedule</div>
                 )}
             </div>
-        </>
     );
 };

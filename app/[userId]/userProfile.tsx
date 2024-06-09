@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/client'
 import { User } from '@supabase/supabase-js'
 import React, { use, useCallback, useEffect, useState } from 'react'
 import FavoriteArtistList from './favorite/favoriteArtist-list';
+import UserLiveBefore from './list/userLiveBefore';
 
 export default function UserProfile  ({ user }: { user: User | null }) {
     const [loading, setLoading] = useState(true)
@@ -73,22 +74,13 @@ export default function UserProfile  ({ user }: { user: User | null }) {
           <div className="px-6 py-4">
             <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">FavoriteArtists</h3>
             <div className="grid grid-cols-3 gap-4 mt-4">
-            <div>
-                {user_id? <FavoriteArtistList userId={user_id}/>:<p>お気に入りアーティストが見つかりません。</p>}
-    </div>
+                {user_id? <FavoriteArtistList key={user_id} userId={user_id}/>:<p>お気に入りアーティストが見つかりません。</p>}
             </div>
           </div>
           <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
             <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">参戦履歴</h3>
             <div className="space-y-4 mt-4">
-              <div className="flex items-start">
-                <img src="/placeholder.svg" alt="User Avatar" className="rounded-full w-10 h-10 mr-4" />
-                <div>
-                  <p className="text-gray-800 dark:text-gray-100 font-bold">John Doe</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Joined a new server</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">2 hours ago</p>
-                </div>
-              </div>
+            {user_id? <UserLiveBefore  key={user_id} userId={user_id}/>:<p>参戦履歴が見つかりません。</p>}
               <div className="flex items-start">
                 <img src="/placeholder.svg" alt="User Avatar" className="rounded-full w-10 h-10 mr-4" />
                 <div>

@@ -60,15 +60,14 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
 
   return (
 
-<section className="w-full py-12">
-<div className="container grid gap-6 md:gap-8 px-4 md:px-6">
+<section className="w-full py-2">
+<div className="container grid gap-6 md:gap-8 px-2 md:px-4">
 {favoriteArtists.length > 0 ? (
   <Carousel className="w-full max-w-full">
     <CarouselContent>
     {favoriteArtists.map((favorite) => (
-      <CarouselItem className="md:basis-1/3 lg:basis-1/4">
-        <div className="p-1">
-          <Card>
+      <CarouselItem className="md:basis-1/3 lg:basis-1/2">
+          <Card className="bg-gray-100 w-full h-full">
             <img
               src={favorite.artists.artist_image}
               alt="Artist Image"
@@ -78,10 +77,8 @@ export default function FavoriteArtistList({ userId }: { userId: string }) {
             />
             <CardContent className="p-4 space-y-2">
               <h3 className="font-semibold text-lg tracking-tight">{favorite.artists.artist_name}</h3>
-              {/* <p className="text-sm text-gray-500 dark:text-gray-400">Experience immersive audio on the go.</p> */}
             </CardContent>
           </Card>
-        </div>
       </CarouselItem>
                 ))}
     </CarouselContent>

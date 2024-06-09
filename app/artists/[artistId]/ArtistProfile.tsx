@@ -69,7 +69,7 @@ export default function ArtistProfile({ artistId, user }: { artistId: string; us
         return <p>読み込み中...</p>; // ユーザーデータを取得中に読み込み状態を表示
     }
   return (
-    <div>
+    <div className='max-w-[600px] bg-red-100 border-2 rounded-t-2xl'>
     {artistData && (
 
     <div className="w-full max-w-[600px] mx-auto">
@@ -85,21 +85,24 @@ export default function ArtistProfile({ artistId, user }: { artistId: string; us
           />
         </div>
       </div>
-      <div className="bg-white dark:bg-gray-900 p-4 border-b border-gray-200 dark:border-gray-800">
-        <h1 className="text-xl font-bold">John Doe</h1>
-        <p>{artistData.music_type}</p>
-        <FavoriteButton artistId={artistData.artist_id} userId={userId} />
-      </div>
+      <div className="bg-white dark:bg-gray-900 p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+  <div className='w-5/6'>
+    <h1 className="text-xl font-bold">{artistData.artist_name}</h1>
+    <p>{artistData.music_type}</p>
+  </div>
+  <div className='w-1/6 flex justify-end'>
+    <FavoriteButton artistId={artistData.artist_id} userId={userId} />
+  </div>
+</div>
       </div>
       )}
       <div>
       {liveData.length > 0 ? (
                     liveData.map((live) => (
                         <div key={live.live_id} className="grid grid-cols-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 text-center py-4">
-                            <h2>{live.live_title}</h2>
+                            <div><h1>{live.live_title}</h1><AddScheduleButton liveId={live.live_id} userId={userId} /></div>
                             <p>{live.venue}</p>
                             <p>{live.date.toString()}</p>
-                            <AddScheduleButton liveId={live.live_id} userId={userId} />
                         </div>
                     ))
                 ) : (

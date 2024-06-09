@@ -15,7 +15,7 @@ export default function ProfileCard ({artist,userId}: {artist: Artist,userId:str
     <div className="flex items-center justify-center h-screen">
     <div className="rounded-lg shadow-lg w-64">
       <div className="h-24 bg-green-600 rounded-t-lg" />
-      <div className='w-32 h-32 rounded-full -mt-12 overflow-hidden mx-auto bg-red-100'>
+      <div className='w-32 h-32 rounded-full -mt-12 overflow-hidden mx-auto bg-green-100'>
         <img
           src={artist_image}
           height="100%"

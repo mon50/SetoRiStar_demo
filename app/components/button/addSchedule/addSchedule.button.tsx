@@ -1,6 +1,6 @@
 "use client";
 import { createClient } from '@/utils/supabase/client';
-import { Icon } from '@mui/material';
+import { Icon, IconButton } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react'
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
@@ -74,11 +74,9 @@ export function AddScheduleButton ({ liveId, userId }: { liveId: number, userId:
         }
     };
   return (
-    <button disabled={loading} onClick={toggleSchedule}>
-        <Icon>
+    <IconButton disabled={loading} onClick={toggleSchedule}>
             {isScheduled ? <EventAvailableIcon/> : <EditCalendarIcon/>}
-        </Icon>
-    </button>
+    </IconButton>
   );
 }
 
